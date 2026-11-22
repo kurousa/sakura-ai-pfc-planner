@@ -21,18 +21,6 @@ const SAMPLE_INGREDIENTS = `【冷蔵】
 
 let latestPlan = null;
 
-async function fetchStatus() {
-  try {
-    const res = await fetch("/api/status");
-    if (!res.ok) return;
-    const data = await res.json();
-    document.getElementById("statusBadge").textContent =
-      `Model: ${data.model} ｜ 今月利用: ${data.monthly_used} / ${data.monthly_limit}回`;
-  } catch (_) {
-    document.getElementById("statusBadge").textContent = "ステータス取得エラー";
-  }
-}
-
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -143,9 +131,6 @@ function renderPlan(resp) {
   } else {
     usageEl.innerHTML = `<p class="text-sm text-slate-500">食材消費マップ情報はありません。</p>`;
   }
-
-  document.getElementById("statusBadge").textContent =
-    `Model: ${resp.model} ｜ 今月利用: ${resp.monthly_used} / ${resp.monthly_limit}回`;
 }
 
 function planToMarkdown(plan) {
@@ -254,5 +239,3 @@ document.getElementById("copyMdBtn").addEventListener("click", async () => {
   btn.textContent = "✅ コピーしました";
   setTimeout(() => (btn.textContent = prev), 2000);
 });
-
-fetchStatus();
